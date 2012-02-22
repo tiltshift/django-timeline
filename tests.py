@@ -6,9 +6,9 @@ from django.db import connection
 from django.template import TemplateDoesNotExist
 
 from shelfworthy.tests import ShelfworthyTestCase
-from .base import (get_redis_connection, EventType,
+from shelfworthy.apps.events.base import (get_redis_connection, EventType,
     ContextItemType, Stream, StreamCluster)
-from .models import (StreamItem,
+from shelfworthy.apps.events.models import (StreamItem,
     StreamCluster as StreamClusterModel)
 
 
@@ -244,6 +244,22 @@ class EventTests(ShelfworthyTestCase):
         }
         Follow(c, d1).save()
         Follow(c, d2, remove=True).save()
+
+        self.assert_stream_equal(Stream(User("alex")), [])
+
+    def test_remove_first(self):
+        '''
+        A case when event is removed, but there was no paired event before that.
+        This can happend if event for following was not created before unfollowing
+        '''
+        d1 = datetime(2010, 10, 8, 9, 32)
+        d2 = datetime(2010, 10, 8, 9, 30)
+        c = {
+            "following": "alex",
+            "follower": "daniel",
+        }
+        Follow(c, d1, remove=True).save()
+        # Follow(c, d2).save()
 
         self.assert_stream_equal(Stream(User("alex")), [])
 
