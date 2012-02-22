@@ -5,12 +5,41 @@ from django.contrib.auth.models import User as UserModel
 from django.db import connection
 from django.template import TemplateDoesNotExist
 
-from shelfworthy.tests import ShelfworthyTestCase
-from shelfworthy.apps.events.base import (get_redis_connection, EventType,
-    ContextItemType, Stream, StreamCluster)
-from shelfworthy.apps.events.models import (StreamItem,
-    StreamCluster as StreamClusterModel)
+from .base import get_redis_connection, EventType, ContextItemType, Stream, StreamCluster
+from .models import StreamItem,StreamCluster as StreamClusterModel
 
+# TODO remove this and use python tests
+class EventTestCase(TestCase):
+    @contextmanager
+    def assert_raises(self, error_type):
+        exc_info = {}
+        try:
+            yield exc_info
+        except error_type, e:
+            exc_info["exception"] = e
+        except Exception, e:
+            self.fail("Exception of type %s expected, %s gotten" % (error_type, e))
+        else:
+            self.fail("Exception of type %s expected, but not raised" % error_type)
+
+    def assertNumQueries(self, num, func=None, *args, **kwargs):
+        using = kwargs.pop("using", DEFAULT_DB_ALIAS)
+        connection = connections[using]
+
+        context = _AssertNumQueriesContext(self, num, connection)
+        if func is None:
+            return context
+
+        # Basically emulate the `with` statement here.
+
+        context.__enter__()
+        try:
+            func(*args, **kwargs)
+        except:
+            context.__exit__(*sys.exc_info())
+            raise
+        else:
+            context.__exit__(*sys.exc_info())
 
 class User(ContextItemType):
     @classmethod
@@ -63,7 +92,7 @@ class Review(EventType):
 
 _missing = object()
 
-class EventTests(ShelfworthyTestCase):
+class EventTests(EventTestCase):
     def setUp(self):
         self.original_REDIS_SETTINGS = getattr(settings, "REDIS_SETTINGS", _missing)
         settings.REDIS_SETTINGS = {

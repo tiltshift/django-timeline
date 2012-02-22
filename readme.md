@@ -6,8 +6,8 @@ it looks like this::
 
     from django.contrib.auth.models import User
 
-    from shelfworthy.apps.events.base import EventType
-    from shelfworthy.apps.library.models import Item
+    from events.base import EventType
+    from yourapp.library.models import Item
 
 
     class AddedToLibrary(EventType):
@@ -19,7 +19,7 @@ it looks like this::
         queryable_by = ["user", "item"]
 
 And then there is querying, all querying is encapsulated in the
-``shelfworthy.apps.events.base.Stream`` class.  It is used like so::
+``events.base.Stream`` class.  It is used like so::
 
     Stream(request.user)
 

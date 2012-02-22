@@ -4,13 +4,13 @@ import uuid
 from collections import defaultdict, namedtuple
 from datetime import datetime, timedelta
 
+import redis
+
 from django.conf import settings
 from django.db.models import Model
 from django.template import Context
 from django.template.loader import render_to_string
 from django.utils import simplejson as json
-
-import redis
 
 from .models import (StreamItem as StreamItemModel,
     StreamCluster as StreamClusterModel)
