@@ -15,7 +15,7 @@ setup(
     install_requires=[
         'django>=1.3.1',
         'redis>=2.0.0'
-    ]
+    ],
     classifiers = [
         "Development Status :: 5 - Production/Stable",
         "Environment :: Web Environment",
