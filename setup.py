@@ -1,16 +1,16 @@
 from distutils.core import setup
  
 setup(
-    name='django-events',
+    name='django-timeline',
     version='1.0',
-    description='Django events using redis',
+    description='a Django timeline (activity stream) using redis',
     long_description = open("readme.md").read(),
     author='Chris Drackett',
-    author_email='drackett@mac.com',
-    url = "https://dmishe@github.com/shelfworthy/django-events.git",
+    author_email='chris@chrisdrackett.com',
+    url = "https://dmishe@github.com/shelfworthy/django-timeline.git",
     packages = [
-        'djevents',
-        'djevents.templatetags',
+        'timeline',
+        'timeline.templatetags',
     ],
     install_requires=[
         'django>=1.3.1',

@@ -1,12 +1,12 @@
-Event Streams
-=============
+Timeline (event streams)
+========================
 
 There are two parts to using event streams.  The first is to declare an Event,
 it looks like this::
 
     from django.contrib.auth.models import User
 
-    from events.base import EventType
+    from timeline.base import EventType
     from yourapp.library.models import Item
 
 
@@ -19,7 +19,7 @@ it looks like this::
         queryable_by = ["user", "item"]
 
 And then there is querying, all querying is encapsulated in the
-``events.base.Stream`` class.  It is used like so::
+``timeline.base.Stream`` class.  It is used like so::
 
     Stream(request.user)
 
