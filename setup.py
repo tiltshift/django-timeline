@@ -9,8 +9,8 @@ setup(
     author_email='drackett@mac.com',
     url = "https://dmishe@github.com/shelfworthy/django-events.git",
     packages = [
-        'events',
-        'events.templatetags',
+        'djevents',
+        'djevents.templatetags',
     ],
     install_requires=[
         'django>=1.3.1',

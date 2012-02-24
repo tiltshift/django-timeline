@@ -6,7 +6,7 @@ from django.db import connection
 from django.template import TemplateDoesNotExist
 
 from .base import get_redis_connection, EventType, ContextItemType, Stream, StreamCluster
-from .models import StreamItem,StreamCluster as StreamClusterModel
+from .models import StreamItem, StreamCluster as StreamClusterModel
 
 # TODO remove this and use python tests
 class EventTestCase(TestCase):
