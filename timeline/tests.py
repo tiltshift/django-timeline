@@ -1,14 +1,15 @@
+from contextlib import contextmanager
 from datetime import datetime, timedelta
 
 from django.conf import settings
 from django.contrib.auth.models import User as UserModel
-from django.db import connection
+from django.db import connection, connections, DEFAULT_DB_ALIAS
 from django.template import TemplateDoesNotExist
+from django.test import TestCase
 
 from .base import get_redis_connection, EventType, ContextItemType, Stream, StreamCluster
 from .models import StreamItem, StreamCluster as StreamClusterModel
 
-# TODO remove this and use python tests
 class EventTestCase(TestCase):
     @contextmanager
     def assert_raises(self, error_type):
@@ -22,24 +23,6 @@ class EventTestCase(TestCase):
         else:
             self.fail("Exception of type %s expected, but not raised" % error_type)
 
-    def assertNumQueries(self, num, func=None, *args, **kwargs):
-        using = kwargs.pop("using", DEFAULT_DB_ALIAS)
-        connection = connections[using]
-
-        context = _AssertNumQueriesContext(self, num, connection)
-        if func is None:
-            return context
-
-        # Basically emulate the `with` statement here.
-
-        context.__enter__()
-        try:
-            func(*args, **kwargs)
-        except:
-            context.__exit__(*sys.exc_info())
-            raise
-        else:
-            context.__exit__(*sys.exc_info())
 
 class User(ContextItemType):
     @classmethod
