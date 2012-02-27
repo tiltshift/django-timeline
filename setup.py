@@ -2,7 +2,7 @@ from distutils.core import setup
  
 setup(
     name='django-timeline',
-    version='1.0',
+    version='0.5',
     description='a Django timeline (activity stream) using redis',
     long_description = open("readme.md").read(),
     author='Chris Drackett',
@@ -17,7 +17,7 @@ setup(
         'redis>=2.0.0'
     ],
     classifiers = [
-        "Development Status :: 5 - Production/Stable",
+        "Development Status :: 4 - Beta",
         "Environment :: Web Environment",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: BSD License",
