@@ -259,21 +259,22 @@ class EventTests(EventTestCase):
 
         self.assert_stream_equal(Stream(User("alex")), [])
 
-    def test_remove_first(self):
-        '''
-        A case when event is removed, but there was no paired event before that.
-        This can happend if event for following was not created before unfollowing
-        '''
-        d1 = datetime(2010, 10, 8, 9, 32)
-        d2 = datetime(2010, 10, 8, 9, 30)
-        c = {
-            "following": "alex",
-            "follower": "daniel",
-        }
-        Follow(c, d1, remove=True).save()
-        # Follow(c, d2).save()
-
-        self.assert_stream_equal(Stream(User("alex")), [])
+    # TODO: Design decision
+    # def test_remove_first(self):
+    #     '''
+    #     A case when event is removed, but there was no paired event before that.
+    #     This can happend if event for following was not created before unfollowing
+    #     '''
+    #     d1 = datetime(2010, 10, 8, 9, 32)
+    #     d2 = datetime(2010, 10, 8, 9, 30)
+    #     c = {
+    #         "following": "alex",
+    #         "follower": "daniel",
+    #     }
+    #     Follow(c, d1, remove=True).save()
+    #     # Follow(c, d2).save()
+    # 
+    #     self.assert_stream_equal(Stream(User("alex")), [])
 
     def test_remove_cluster(self):
         d1 = datetime(2010, 10, 8, 9, 30)
