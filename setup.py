@@ -6,8 +6,8 @@ setup(
     description='a Django timeline (activity stream) using redis',
     long_description = open("readme.md").read(),
     author='Chris Drackett',
-    author_email='chris@chrisdrackett.com',
-    url = "https://dmishe@github.com/shelfworthy/django-timeline.git",
+    author_email='chris@tiltshiftstudio.com',
+    url = "https://github.com/tiltshift/django-timeline.git",
     packages = [
         'timeline',
         'timeline.templatetags',
