@@ -1,4 +1,4 @@
-from distutils.core import setup
+from distutils.core import setup, find_packages
  
 setup(
     name='django-timeline',
@@ -8,10 +8,8 @@ setup(
     author='Chris Drackett',
     author_email='chris@tiltshiftstudio.com',
     url = "https://github.com/tiltshift/django-timeline.git",
-    packages = [
-        'timeline',
-        'timeline.templatetags',
-    ],
+    packages = find_packages(),
+    include_package_data=True,
     install_requires=[
         'django>=1.3.1',
         'redis>=2.0.0'
