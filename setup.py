@@ -4,7 +4,6 @@ setup(
     name='django-timeline',
     version='0.5',
     description='a Django timeline (activity stream) using redis',
-    long_description = open("readme.md").read(),
     author='Chris Drackett',
     author_email='chris@tiltshiftstudio.com',
     url = "https://github.com/tiltshift/django-timeline.git",
