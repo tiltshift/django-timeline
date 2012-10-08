@@ -24,11 +24,11 @@ Here is a generic example for an event definition where a user is adding an item
     from django.contrib.auth.models import User
 
     from timeline.base import EventType
-    
+
     from yourapp.apps.items.models import Item
 
     class UserAddedItem(EventType):
-        slug = "user-added-item"
+        slug = "user_added_item"
         context_shape = {
             "user": User,
             "item": Item,
@@ -46,10 +46,10 @@ Next you&rsquo;ll need to write some code to create actual event objects:
 
 ``` python
     from yourapp.apps.items.events import UserAddedItem
-    
+
     def Add_Item(user, item):
         # app code for adding the item here.
-        
+
         UserAddedItem({
             'user': user,
             'item': item
@@ -62,7 +62,7 @@ Now that you've got an event saved, lets look at how to display it:
 
 ``` python
     from timeline.base import Stream
-    
+
     events = Stream(request.user)
 ```
 
@@ -72,7 +72,29 @@ Stream can take any number of positional arguments and it will combine their str
 
 It also takes a number of keyword arguments:
 
-- `event_type` will return only `Events` for a given slug. 
+- `event_type` will return only `Events` for a given slug.
 - `limit` a number saying how many `Events` should be included, defaults to 20.
 - `cluster` a boolean saying whether the data returned should be clustered, if it is than it yields a list
 of `Events`, rather than discrete `Events`.
+
+In your templates you use the `render_event` template tag to render your events. Here is an example:
+
+``` python
+{% load event_tags %}
+
+{% for event in events %}
+    {% render_event event %}
+{% endfor %}
+```
+
+The last step is to add a template representing each of your event types. The app looks for templates using the event slug: `events/event/user_added_item.html` would be the template you add for an event with the slug `user_added_item`.
+
+Here is what `user_added_item.html` might look like:
+
+``` html
+
+    {{ event.user }} added an item {{ item }}.
+
+```
+
+you can also access the query object that was used to look up this event with the `{{ query_object }}` variable.
