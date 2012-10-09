@@ -221,6 +221,7 @@ class StreamCluster(object):
             context = Context()
         context.push()
         context["query_object"] = self.clustered_on
+        context["cluster_id"] = self.cluster_id
         if len(self.events) == 1:
             context["event"] = self.events[0]
             # The context variable for a full stream is often named events,
